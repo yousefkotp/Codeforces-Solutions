@@ -1,0 +1,73 @@
+#include <iostream>
+#include <cstdlib>
+#include <bits/stdc++.h>
+#include <string.h>
+#define endl '\n'
+#define io ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define lp(i, n)		for(int i=0;i<(int)(n);++i)
+#define rep(i, v)		for(int i=0;i<sz(v);++i)
+#define approx(x) cout<<fixed<<setprecision(x);
+using namespace std;
+int sieve[1000001];
+
+void generate_sieve()
+{
+    for(long long i=3; i<1000001; i+=2)
+        sieve[i]=i;
+
+    for(long long i=3; i<1000001; i+=2)
+        if(sieve[i]==i)
+            for(long long j=i*i; j<1000001; j+=i)
+                sieve[j]=0;
+
+    sieve[2]=2;
+    sieve[1]=1;//return it to 0
+
+}
+const int maxn = 2e5 + 10;
+
+int main()
+{
+    io;
+    int n,m;
+    cin>>n;
+    int arr[105]={0};
+    int arr2[105]={0};
+    vector<int>v(n);
+    for(int i=0;i<n;i++){
+        cin>>v[i];
+        arr[v[i]]++;
+    }
+    cin>>m;
+    vector<int>v2(m);
+    for(int i=0;i<m;i++){
+        cin>>v2[i];
+        arr2[v2[i]]++;
+    }
+    sort(v.begin(),v.end());
+    sort(v2.begin(),v2.end());
+    int sum =0;
+    for(int i=0;i<n;i++){
+        int x=0;
+        x=arr2[v[i]-1];
+        if(x>0){
+            sum++;
+            arr2[v[i]-1]--;
+        }else if(x==0){
+            x = arr2[v[i]];
+            if(x>0){
+                sum++;
+                arr2[v[i]]--;
+            }else if(x==0){
+                x = arr2[v[i]+1];
+                if(x>0){
+                    sum++;
+                    arr2[v[i]+1]--;
+                }
+            }
+        }
+    }
+
+    cout<<sum;
+    return 0;
+}
